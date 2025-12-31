@@ -1,8 +1,9 @@
 import csv
 import os
 
-folder_path = "E:\\0.0_CDU\\1.Software_now_course_resources\\Group_assingment_2\\nazia_assingment_2_syd_15\\HIT137_2025_S3_Sydney15\\temperatures"  # local directory
+# folder_path = "E:\\0.0_CDU\\1.Software_now_course_resources\\Group_assingment_2\\nazia_assingment_2_syd_15\\HIT137_2025_S3_Sydney15\\temperatures"  # local directory
 
+folder_path = "..\\HIT137_2025_S3_Sydney15\\temperatures"
 #helper function : calculates the average
 def calculate_average(temps):
     return round(float(sum(temps)) / int(len(temps)), 2)
