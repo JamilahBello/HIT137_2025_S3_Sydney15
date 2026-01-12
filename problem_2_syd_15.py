@@ -29,12 +29,15 @@ When run, your program should automatically:
 """
 
 
+# Transforms a single character using a shift and starting alphabet
 def transform_char(shift, char, start_char):
     new_ord = ord(char) - ord(start_char)
     new_char = chr((new_ord + shift) % 13 + ord(start_char))
     return new_char
 
 
+# Encryots the contents of raw_text.txt and writes to encrypted_text.txt
+# Apply shift transformations depending on the position of the letter
 def encryption(shift1, shift2):
     with open("raw_text.txt", "r") as file:
         raw_text = file.read()
@@ -55,6 +58,8 @@ def encryption(shift1, shift2):
         file.write("".join(encrypted_text))
 
 
+# Decrypts the contents of encrypted_text.txt  and writes to decrypted_text.txt
+# Applies the inverse shift transformations
 def decryption(shift1, shift2):
     with open("encrypted_text.txt", "r") as file:
         encrypted_text = file.read()
@@ -75,6 +80,7 @@ def decryption(shift1, shift2):
         file.write("".join(decrypted_text))
 
 
+# Verifies that the contents of decrypted_text.txt and raw_text.txt are the same
 def verify_decryption():
     with open("decrypted_text.txt", "r") as file:
         decrypted_text = file.read()
