@@ -39,58 +39,69 @@ def transform_char(shift, char, start_char):
 # Encryots the contents of raw_text.txt and writes to encrypted_text.txt
 # Apply shift transformations depending on the position of the letter
 def encryption(shift1, shift2):
-    with open("raw_text.txt", "r") as file:
-        raw_text = file.read()
-    encrypted_text = []
-    for char in raw_text:
-        if "a" <= char <= "m":
-            new_char = transform_char(+(shift1 * shift2), char, "a")
-        elif "n" <= char <= "z":
-            new_char = transform_char(-(shift1 + shift2), char, "n")
-        elif "A" <= char <= "M":
-            new_char = transform_char(-shift1, char, "A")
-        elif "N" <= char <= "Z":
-            new_char = transform_char(+(shift2**2), char, "N")
-        else:
-            new_char = char
-        encrypted_text.append(new_char)
-    with open("encrypted_text.txt", "w") as file:
-        file.write("".join(encrypted_text))
+    try:
+        with open("raw_text.txt", "r") as file:
+            raw_text = file.read()
+        encrypted_text = []
+        for char in raw_text:
+            if "a" <= char <= "m":
+                new_char = transform_char(shift1 * shift2, char, "a")
+            elif "n" <= char <= "z":
+                new_char = transform_char(-(shift1 + shift2), char, "n")
+            elif "A" <= char <= "M":
+                new_char = transform_char(-shift1, char, "A")
+            elif "N" <= char <= "Z":
+                new_char = transform_char(shift2**2, char, "N")
+            else:
+                new_char = char
+            encrypted_text.append(new_char)
+        with open("encrypted_text.txt", "w") as file:
+            file.write("".join(encrypted_text))
+    except FileNotFoundError:
+        print("File not found.")
 
 
 # Decrypts the contents of encrypted_text.txt  and writes to decrypted_text.txt
 # Applies the inverse shift transformations
 def decryption(shift1, shift2):
-    with open("encrypted_text.txt", "r") as file:
-        encrypted_text = file.read()
-    decrypted_text = []
-    for char in encrypted_text:
-        if "a" <= char <= "m":
-            new_char = transform_char(-(shift1 * shift2), char, "a")
-        elif "n" <= char <= "z":
-            new_char = transform_char(+(shift1 + shift2), char, "n")
-        elif "A" <= char <= "M":
-            new_char = transform_char(+shift1, char, "A")
-        elif "N" <= char <= "Z":
-            new_char = transform_char(-(shift2**2), char, "N")
-        else:
-            new_char = char
-        decrypted_text.append(new_char)
-    with open("decrypted_text.txt", "w") as file:
-        file.write("".join(decrypted_text))
+    try:
+        with open("encrypted_text.txt", "r") as file:
+            encrypted_text = file.read()
+        decrypted_text = []
+        for char in encrypted_text:
+            if "a" <= char <= "m":
+                new_char = transform_char(-(shift1 * shift2), char, "a")
+            elif "n" <= char <= "z":
+                new_char = transform_char(shift1 + shift2, char, "n")
+            elif "A" <= char <= "M":
+                new_char = transform_char(shift1, char, "A")
+            elif "N" <= char <= "Z":
+                new_char = transform_char(-(shift2**2), char, "N")
+            else:
+                new_char = char
+            decrypted_text.append(new_char)
+        with open("decrypted_text.txt", "w") as file:
+            file.write("".join(decrypted_text))
+    except FileNotFoundError:
+        print("File not found.")
 
 
 # Verifies that the contents of decrypted_text.txt and raw_text.txt are the same
 def verify_decryption():
-    with open("decrypted_text.txt", "r") as file:
-        decrypted_text = file.read()
-    with open("raw_text.txt", "r") as file:
-        raw_text = file.read()
+    try:
+        with open("decrypted_text.txt", "r") as file:
+            decrypted_text = file.read()
+        with open("raw_text.txt", "r") as file:
+            raw_text = file.read()
 
-    if raw_text == decrypted_text:
-        print("\n\nDecryption successful: The decrypted text matches the original.")
-    else:
-        print("\n\nDecryption failed: The decrypted text does not match the original.")
+        if raw_text == decrypted_text:
+            print("\n\nDecryption successful: The decrypted text matches the original.")
+        else:
+            print(
+                "\n\nDecryption failed: The decrypted text does not match the original."
+            )
+    except FileNotFoundError:
+        print("File not found.")
 
 
 # Get user inputs for shifts
