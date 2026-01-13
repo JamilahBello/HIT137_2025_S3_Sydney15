@@ -32,7 +32,7 @@ When run, your program should automatically:
 # Transforms a single character using a shift and starting alphabet
 def transform_char(shift, char, start_char):
     new_ord = ord(char) - ord(start_char)
-    new_char = chr((new_ord + shift) % 13 + ord(start_char))
+    new_char = chr((new_ord + shift) % 13 + ord(start_char))  # inspired by [10]
     return new_char
 
 
@@ -40,7 +40,7 @@ def transform_char(shift, char, start_char):
 # Apply shift transformations depending on the position of the letter
 def encryption(shift1, shift2):
     try:
-        with open("raw_text.txt", "r") as file:
+        with open("raw_text.txt", "r") as file:  # in [9]
             raw_text = file.read()
         encrypted_text = []
         for char in raw_text:
@@ -55,9 +55,9 @@ def encryption(shift1, shift2):
             else:
                 new_char = char
             encrypted_text.append(new_char)
-        with open("encrypted_text.txt", "w") as file:
+        with open("encrypted_text.txt", "w") as file:  # in [11]
             file.write("".join(encrypted_text))
-    except FileNotFoundError:
+    except FileNotFoundError:  # in [14]
         print("File not found.")
 
 
@@ -65,7 +65,7 @@ def encryption(shift1, shift2):
 # Applies the inverse shift transformations
 def decryption(shift1, shift2):
     try:
-        with open("encrypted_text.txt", "r") as file:
+        with open("encrypted_text.txt", "r") as file:  # in [9]
             encrypted_text = file.read()
         decrypted_text = []
         for char in encrypted_text:
@@ -80,18 +80,18 @@ def decryption(shift1, shift2):
             else:
                 new_char = char
             decrypted_text.append(new_char)
-        with open("decrypted_text.txt", "w") as file:
+        with open("decrypted_text.txt", "w") as file:  # in [11]
             file.write("".join(decrypted_text))
-    except FileNotFoundError:
+    except FileNotFoundError:  # in [14]
         print("File not found.")
 
 
 # Verifies that the contents of decrypted_text.txt and raw_text.txt are the same
 def verify_decryption():
     try:
-        with open("decrypted_text.txt", "r") as file:
+        with open("decrypted_text.txt", "r") as file:  # in [9]
             decrypted_text = file.read()
-        with open("raw_text.txt", "r") as file:
+        with open("raw_text.txt", "r") as file:  # in [9]
             raw_text = file.read()
 
         if raw_text == decrypted_text:
@@ -100,7 +100,7 @@ def verify_decryption():
             print(
                 "\n\nDecryption failed: The decrypted text does not match the original."
             )
-    except FileNotFoundError:
+    except FileNotFoundError:  # in [14]
         print("File not found.")
 
 
