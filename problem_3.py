@@ -25,9 +25,9 @@ Example Execution:
     Enter the recursion depth: 3
 """
 
-import turtle  # i.e. in 11
+import turtle  # i.e. in [11]
 
-draw = turtle.Turtle()  # i.e. in 11
+draw = turtle.Turtle()  # i.e. in [11]
 
 # get number of sides from user
 while True:
@@ -39,7 +39,7 @@ while True:
     if no_of_sides >= 3:
         break
     else:
-        print("You need atleast 3 sides for a polygon. Enter valid number.")
+        print("You need at least 3 sides for a polygon. Enter valid number.")
         continue
 
 # get length from user
@@ -63,19 +63,19 @@ while True:
 
 def recuring_shape(depth):
     if depth == 0:
-        draw.forward(side_length / 3)  # i.e. in 11
+        draw.forward(side_length / 3)  # i.e. in [11]
     else:
         recuring_shape(depth - 1)
-        draw.right(60)  # i.e. in 11
+        draw.right(60)  # i.e. in [11]
         recuring_shape(depth - 1)
-        draw.left(120)  # i.e. in 11
+        draw.left(120)  # i.e. in [11]
         recuring_shape(depth - 1)
-        draw.right(60)  # i.e. in 11
+        draw.right(60)  # i.e. in [11]
         recuring_shape(depth - 1)
 
 
 for side_num in range(int(no_of_sides)):
     recuring_shape(recursion_depth)
-    draw.right(360 / no_of_sides)  # i.e. in 11
+    draw.right(360 / no_of_sides)  # i.e. in [11]
 
-turtle.done()  # i.e. in 11
+turtle.done()  # i.e. in [11]
