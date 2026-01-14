@@ -1,15 +1,43 @@
+"""
+Create a program that analyses temperature data collected from multiple weather
+stations in Australia. The data is stored in multiple CSV files under a "temperatures"
+folder, with each file representing data from one year. Process ALL .csv files in the
+temperatures folder. Ignore missing temperature values (NaN) in calculations.
+
+Main Functions to Implement:
+
+Seasonal Average: Calculate the average temperature for each season across ALL
+stations and ALL years. Save the results to "average_temp.txt".
+    • Use Australian seasons: Summer (Dec-Feb), Autumn (Mar-May), Winter (JunAug), Spring (Sep-Nov)
+    • Output format example: "Summer: 28.5°C"
+
+Temperature Range: Find the station(s) with the largest temperature range (difference
+between the highest and lowest temperature ever recorded at that station). Save the
+results to "largest_temp_range_station.txt".
+    • Output format example: "Station ABC: Range 45.2°C (Max: 48.3°C, Min: 3.1°C)"
+    • If multiple stations tie, list all of them
+
+Temperature Stability: Find which station(s) have the most stable temperatures
+(smallest standard deviation) and which have the most variable temperatures (largest
+standard deviation). Save the results to "temperature_stability_stations.txt".
+    • Output format example:
+        o "Most Stable: Station XYZ: StdDev 2.3°C"
+        o "Most Variable: Station DEF: StdDev 12.8°C"
+    • If multiple stations tie, list all of them
+
+"""
 import csv
 import os
 
 folder_path = "E:\\0.0_CDU\\1.Software_now_course_resources\\Group_assingment_2\\nazia_assingment_2_syd_15\\HIT137_2025_S3_Sydney15\\temperatures"  # local directory
 
-#helper function : calculates the average
+# helper function : calculates the average
 def calculate_average(temps):
     return round(float(sum(temps)) / int(len(temps)), 2)
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------------------------------------
-#function 01
+# function 01
 def seasonal_average():
     summer_temperature = []
     winter_temperature = []
@@ -19,7 +47,7 @@ def seasonal_average():
     for filename in os.listdir(folder_path):
         if filename.endswith(".csv"):
             file_path = os.path.join(folder_path, filename)
-            with (open(file_path, mode="r", encoding="utf-8") as file):
+            with (open(file_path, mode = "r", encoding="utf-8") as file):
                 reader = csv.DictReader(file)
                 for row in reader:
                     for i in row["December"], row["January"], row["February"]:
@@ -44,13 +72,13 @@ def seasonal_average():
 #------------------------------------------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-#function 2 : find the range of temperature station wise and returns the max
+# function 2 : find the range of temperature station wise and returns the max
 def temperature_range_func():
-    #reading files in directory
+    # reading files in directory
     for filename in os.listdir(folder_path):
-        if filename.endswith(".csv"): #will only read csv files
+        if filename.endswith(".csv"): # will only read csv files
             file_path = os.path.join(folder_path, filename)
-            with (open(file_path, mode="r", encoding="utf-8") as file):
+            with (open(file_path, mode = "r", encoding="utf-8") as file):
                 reader = csv.DictReader(file)
                 station_wise_temps = {}
                 for row in reader:
@@ -108,10 +136,10 @@ def temperature_range_func():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------------------------------------
-#function 3 : find the smallest and largest standard deviation , station wise
+# function 3 : find the smallest and largest standard deviation , station wise
 
 def temperature_stability():
-    #reading files in directory
+    # reading files in directory
     for filename in os.listdir(folder_path):
         if filename.endswith(".csv"): #will only read csv files
             file_path = os.path.join(folder_path, filename)
@@ -130,8 +158,8 @@ def temperature_stability():
 
                     station_wise_temps[station_name] = temperatures
 
-    #steps dor std (standard deviation)
-    #1 : Find mean of each station's temperatures
+    # steps dor std (standard deviation)
+    # 1 : Find mean of each station's temperatures
     station_wise_std={}
     mean_temperature = {}
     all_station_std=[]
@@ -144,8 +172,8 @@ def temperature_stability():
              }
     for  temperatures, mean_temperature in mean_temperature.items():
             station=mean_temperature["station_name"]
-            all_temperatures=mean_temperature["temperatures"]  #only the temperatures value keeping in a variable
-            mean_value = mean_temperature["mean_temperature"]   #the mean of all temperature
+            all_temperatures=mean_temperature["temperatures"]  # only the temperatures value keeping in a variable
+            mean_value = mean_temperature["mean_temperature"]   # the mean of all temperature
 
             sum_of_squared_diff =0
             for i in all_temperatures:
@@ -163,31 +191,31 @@ def temperature_stability():
 
 
 
-    #find the max and min std station wise
-    #definifn first value as the min and max, later we will find the actual min , max
-    min_std=all_station_std[0]
-    max_std=all_station_std[0]
+    # find the max and min std station wise
+    # define first value as the min and max, later we will find the actual min , max
+    min_std = all_station_std[0]
+    max_std = all_station_std[0]
 
 
     for values in all_station_std:
-        if values["std"]>max_std['std'] :
-            max_std=values
-        if values["std"]<min_std['std']:
-            min_std=values
+        if values["std"] > max_std['std'] :
+            max_std = values
+        if values["std"] < min_std['std']:
+            min_std = values
 
-    #this block of code handles if there are ties (multiple min or max) standard deviation,
+    # this block of code handles if there are ties (multiple min or max) standard deviation,
     for data in all_station_std:
-        if data["std"]==max_std['std']:
-            max_std['station_name']=all_station_std[0]['station_name']
+        if data["std"] == max_std['std']:
+            max_std['station_name'] = all_station_std[0]['station_name']
             max_std['std']=data["std"]
 
-        if data["std"]==min_std['std']:
-            min_std['station_name']=all_station_std[0]['station_name']
-            min_std['std']=data["std"]
+        if data["std"] == min_std['std']:
+            min_std['station_name'] = all_station_std[0]['station_name']
+            min_std['std'] = data["std"]
 
-    print(min_std,min_std)
+    print(min_std, min_std)
 
-    with open("temperature_stability_stations.tx", 'w', encoding="utf-8") as file:
+    with open("temperature_stability_stations.tx", 'w', encoding = "utf-8") as file:
         file.write(
              "Most Stable:Station:" f"{min_std["station_name"]}: StdDev {min_std['std']}\u00B0C Most Variable:Station:{max_std["station_name"]}: StdDev {max_std['std']}\u00B0C"
         )
