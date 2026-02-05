@@ -58,3 +58,6 @@ class ImageController:
 
     def cancel(self):
         self.img = self.model.get_current()
+
+    def reset(self):
+        self.img = self.model.reset()
