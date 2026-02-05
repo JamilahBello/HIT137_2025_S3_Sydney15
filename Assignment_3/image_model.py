@@ -30,21 +30,23 @@ class ImageModel:
         self.redo_stack = []
         self.path = path
 
-    # Print basic information about image
+    # Return basic information about image
     def get_details(self):
+        if self.current is None:
+            return
         height, width = self.current.shape[:2]
-        print(f"height: {height}\n width: {width}\n path: {self.path}")
+        return f"height: {height}px\n" f"width: {width}\n" f"path: {self.path}"
 
     # Return a copy of current image
     def get_current(self):
         if self.current is None:
-            raise ValueError("No image open")
+            return
         return self.current.copy()
 
     # Update the current image and update undo history and clean redo
     def set_current(self, img):
         if img is None or self.current is None:
-            raise ValueError("No image open")
+            return
         self.undo_stack.append(self.current.copy())
         self.current = img.copy()
         self.redo_stack = []
@@ -52,7 +54,7 @@ class ImageModel:
     # Update the current image with previous image and update the redo stack
     def undo(self):
         if self.current is None:
-            raise ValueError("No image open")
+            return
         if self.undo_stack == []:
             return self.current.copy()
         prev = self.current.copy()
@@ -63,7 +65,7 @@ class ImageModel:
     # Update the current image with undone image and update the undo stack
     def redo(self):
         if self.current is None:
-            raise ValueError("No image open")
+            return
         if self.redo_stack == []:
             return self.current.copy()
         prev = self.current.copy()
@@ -72,10 +74,10 @@ class ImageModel:
         return self.current.copy()
 
     # Save current commited image
-    def save(self, path):
-        if self.current is None:
+    def save(self, img, path):
+        if img is None:
             raise ValueError(f"No image open")
-        is_saved = cv2.imwrite(path, self.current)
+        is_saved = cv2.imwrite(path, img)
         if not is_saved:
             raise ValueError(f"Could not save image to: {path}")
 
@@ -89,8 +91,9 @@ class ImageModel:
     def blur(self, img, intensity):
         if img is None:
             raise ValueError(f"No image open")
-        if intensity < 1:
-            intensity = 1
+        if intensity <= 0:
+            return img.copy()
+
         if intensity % 2 == 0:
             intensity += 1
         return cv2.GaussianBlur(img, (intensity, intensity), 0)
@@ -106,10 +109,10 @@ class ImageModel:
     def brightness(self, img, beta):
         if img is None:
             raise ValueError(f"No image open")
-        if beta < -255:
-            beta = -255
-        if beta > 255:
-            beta = 255
+        if beta < -100:
+            beta = -100
+        if beta > 100:
+            beta = 100
         return cv2.convertScaleAbs(img, alpha=1, beta=beta)
 
     # Apply contrast
@@ -163,10 +166,12 @@ class ImageModel:
         if height is not None and width is None:
             print("here 3")
             return cv2.resize(img, (img_width, height))
-        return img
+        return img.copy()
 
     # Return original image
     def reset(self):
         if self.original is None:
             raise ValueError(f"No image open")
-        return self.original.copy()
+        self.undo_stack.append(self.current.copy())
+        self.current = self.original.copy()
+        return self.current.copy()
