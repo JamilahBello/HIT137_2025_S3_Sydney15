@@ -1,8 +1,5 @@
-#!/usr/bin/env python3
-"""
-Simple Image Editor - Functions Only (No Classes)
-All requirements met with simple functions
-"""
+
+
 
 import tkinter as tk
 from tkinter import filedialog, messagebox
@@ -32,9 +29,8 @@ contrast_label = None
 contrast_variable = None
 brightness_var=None
 
-# ==================== FILE OPERATIONS ====================
 
-def open_image():
+def open_image(): #[4]
     """Open an image file"""
     global original_photo, current_photo, filepath, undo_list, redo_list
 
@@ -47,11 +43,11 @@ def open_image():
             ("BMP", "*.bmp"),
             ("All files", "*.*")
         ]
-    )
+    )#[4]
 
     if file_path:
         try:
-            # Load image
+            # Load image #[4]
             original_photo = Image.open(file_path)
             current_photo = original_photo.copy()
             filepath = file_path
@@ -67,14 +63,14 @@ def open_image():
             display_image()
             update_status(f"Loaded: {file_path}")
 
-            messagebox.showinfo( "Success","Image loaded successfully!")
+            messagebox.showinfo( "Success","Image loaded successfully!") #[4]
 
         except Exception as e:
             messagebox.showerror("Error",f"Could not open image, file type may be corrupted or unsupported file type:\n{str(e)}")
 
 
 def save_image():
-    """Save to current file"""
+    #[4]
     global current_photo, filepath
 
     if current_photo is None:
@@ -85,15 +81,15 @@ def save_image():
         save_as()
         return
 
-    try:
+    try: #[4]
         current_photo.save(filepath)
         messagebox.showinfo("Success", "Image saved!")
         update_status(f"Saved: {filepath}")
     except Exception as e:
-        messagebox.showerror("Error", f"Could not save:\n{str(e)}")
+        messagebox.showerror("Error", f"Could not save:\n{str(e)}") #[4]
 
 
-def save_as():
+def save_as(): #[4]
     """Save to new file"""
     global current_photo, filepath
 
@@ -139,7 +135,7 @@ def save_for_undo():
         redo_list.clear()
 
 
-def undo():
+def undo(): 
     """Undo last action"""
     global current_photo, undo_list, redo_list
 
@@ -153,7 +149,7 @@ def undo():
     # Restore previous
     current_photo = undo_list.pop()
     display_image()
-    update_status("Undo")
+    update_status("Undo") #[5]
 
 
 def redo():
@@ -165,15 +161,15 @@ def redo():
         return
 
     # Save current to undo
-    undo_list.append(current_photo.copy())
+    undo_list.append(current_photo.copy())   #[5]
 
     # Restore redo
     current_photo = redo_list.pop()
     display_image()
-    update_status("Redo")
+    update_status("Redo")  #[5]
 
 
-def apply_reset_image():
+def apply_reset_image(): 
     """Reset to original image"""
     global original_photo, current_photo
 
@@ -186,10 +182,9 @@ def apply_reset_image():
         original_photo = original_photo.copy()
         brightness_var.set(1.0)
         display_image()
-        update_status("Reset to original")
+        update_status("Reset to original")  #[6]
 
 
-# ==================== DISPLAY ====================
 
 def display_image():
     """Show image on canvas"""
@@ -211,12 +206,12 @@ def display_image():
 
     # Update status
     w, h = current_photo.size
-    update_status(f"Size: {w}×{h} pixels")
+    update_status(f"Size: {w}×{h} pixels")  #[5]
 
 
 def update_status(message):
     """Update status bar"""
-    status_bar.config(text=message)
+    status_bar.config(text=message) 
 
 
 # ==================== FILTERS ====================
@@ -288,8 +283,8 @@ def create_menu():
     file_menu.add_command(label="Exit", command=exit_app)
 
     # Edit Menu
-    edit_menu = tk.Menu(menubar, tearoff=0)
-    menubar.add_cascade(label="Edit", menu=edit_menu)
+    edit_menu = tk.Menu(menubar, tearoff=0) 
+    menubar.add_cascade(label="Edit", menu=edit_menu) #[1]
 
     # edit_menu.add_command(label="Undo", command=undo)
     # edit_menu.add_command(label="Redo", command=redo)
@@ -314,7 +309,7 @@ def create_canvas():
         text="Open an image\n(File → Open)",
         fill='white',
         font=('Arial', 14)
-    )
+    )#[1]
 
 
 
@@ -353,7 +348,7 @@ def create_controls():
         relief="flat",
         height=2,
         width=9
-    ).pack(side=tk.LEFT, padx=5)
+    ).pack(side=tk.LEFT, padx=5) #[2]
 
     # Redo button
     tk.Button(
@@ -387,7 +382,7 @@ def create_controls():
         relief="flat",
         height=2,
         width=20
-    ).pack(pady=3)
+    ).pack(pady=3) #[2]
 
     tk.Button(
         control_frame,
@@ -401,7 +396,7 @@ def create_controls():
         relief="flat",
         height=2,
         width=20
-    ).pack(pady=5)
+    ).pack(pady=5) #[2]
 
     tk.Button(
         control_frame,
@@ -415,7 +410,7 @@ def create_controls():
         relief="flat",
         height=2,
         width=20
-    ).pack(pady=3)
+    ).pack(pady=3) #[2]
 
 
     tk.Button(
@@ -430,7 +425,7 @@ def create_controls():
         relief="flat",
         height=2,
         width=20
-    ).pack(pady=3)
+    ).pack(pady=3) #[2]
     tk.Button(
         control_frame,
         text="Rotate 180°",
@@ -443,7 +438,7 @@ def create_controls():
         relief="flat",
         height=2,
         width=20
-    ).pack(pady=3)
+    ).pack(pady=3) #[2]
 
     tk.Button(
         control_frame,
@@ -457,7 +452,7 @@ def create_controls():
         relief="flat",
         height=2,
         width=20
-    ).pack(pady=3)
+    ).pack(pady=3) #[2]
 
     tk.Button(
         control_frame,
@@ -471,7 +466,7 @@ def create_controls():
         relief="flat",
         height=2,
         width=20
-    ).pack(pady=3)
+    ).pack(pady=3) #[2]
 
     tk.Button(
         control_frame,
@@ -485,7 +480,7 @@ def create_controls():
         relief="flat",
         height=2,
         width=20
-    ).pack(pady=3)
+    ).pack(pady=3) #[2]
 
     # Separator
 
@@ -496,7 +491,7 @@ def create_controls():
         font=('Segoe UI', 10),
         bg='#52514b',
         fg='white'
-    ).pack(pady=5)
+    ).pack(pady=5) #[2]
 
     brightness_var = tk.DoubleVar(value=1.0)
 
@@ -520,7 +515,7 @@ def create_controls():
         relief="flat",
         showvalue=False
     )
-    brightness_slider.pack(pady=(10, 4))
+    brightness_slider.pack(pady=(10, 4)) #[1]
 
 
     brightness_label = tk.Label(
@@ -578,8 +573,8 @@ def create_controls():
         fg="#dddddd",
         padx=10,
         pady=8
-    )
-    image_info_label.pack(fill=tk.X)
+    ) 
+    image_info_label.pack(fill=tk.X) #[1]
 
     # Reset button
     tk.Button(
@@ -624,7 +619,6 @@ def setup_window():
     root.minsize(800, 600)
 
 
-# ==================== MAIN ====================
 
 def main():
     """Main function - setup and run"""
