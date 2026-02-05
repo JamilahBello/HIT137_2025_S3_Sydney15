@@ -31,7 +31,7 @@ class ImageView:
 
     # ==================== FILE OPERATIONS ====================
 
-    def open_image(self):  # [4]
+    def open_image(self):  # [10]
         """Open an image file"""
         file_path = filedialog.askopenfilename(
             title="Open Image",
@@ -60,7 +60,7 @@ class ImageView:
             )
 
     def save_image(self):
-        # [4]
+        # [11]
         """Save to current file"""
         if self.controller.get_display_pil() is None:
             messagebox.showwarning("Warning", "No image found.")
@@ -74,7 +74,7 @@ class ImageView:
             messagebox.showerror("Error", f"Could not save:\n{str(e)}")
 
     def save_as(self):
-        # [4]
+        # [11]
         """Save to new file"""
         if self.controller.get_display_pil() is None:
             messagebox.showwarning("Warning", "No image found.")
@@ -113,7 +113,7 @@ class ImageView:
             return
         self.controller.undo()
         self.refresh_image()
-        self.update_status("Undo")  # [5]
+        self.update_status("Undo")  # [12]
 
     def redo(self):
         if self.controller.get_display_pil() is None:
@@ -121,7 +121,7 @@ class ImageView:
             return
         self.controller.redo()
         self.refresh_image()
-        self.update_status("Redo")  # [5]
+        self.update_status("Redo")  # [12]
 
     def apply_reset_image(self):
         """Reset to original image"""
@@ -136,7 +136,7 @@ class ImageView:
             self.blur_var.set(0)
             self.refresh_image()
             self.refresh_details()
-            self.update_status("Reset to original")  # [6]
+            self.update_status("Reset to original")  # [13]
 
     def refresh_image(self):
         """PULL PIL disp;ay image from controller and draw it"""
@@ -159,7 +159,7 @@ class ImageView:
         size = self.controller.get_size()
         if size:
             w, h = size
-            self.update_status(f"Size: {w}x{h} pixels")  # [5]
+            self.update_status(f"Size: {w}x{h} pixels")  # [13]
 
     def update_status(self, message):
         """Update status bar"""
@@ -267,7 +267,7 @@ class ImageView:
 
         # File Menu
         file_menu = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label="File", menu=file_menu)  # [1]
+        menubar.add_cascade(label="File", menu=file_menu)  # [14]
         file_menu.add_command(label="Open", command=self.open_image)
         file_menu.add_command(label="Save", command=self.save_image)
         file_menu.add_command(label="Save As", command=self.save_as)
@@ -341,7 +341,7 @@ class ImageView:
         #     relief="flat",
         #     height=2,
         #     width=9,
-        # ).pack(side=tk.LEFT, padx=5) # [2]
+        # ).pack(side=tk.LEFT, padx=5) # [15]
 
         # # Redo button
         # tk.Button(
@@ -391,7 +391,7 @@ class ImageView:
             width=20,
         ).pack(
             pady=3
-        )  # [2]
+        )  # [16]
 
         tk.Button(
             control_frame,
@@ -407,7 +407,7 @@ class ImageView:
             width=20,
         ).pack(
             pady=3
-        )  # [2]
+        )  # [16]
         tk.Button(
             control_frame,
             text="Rotate 180°",
@@ -422,7 +422,7 @@ class ImageView:
             width=20,
         ).pack(
             pady=3
-        )  # [2]
+        )  # [16]
 
         tk.Button(
             control_frame,
@@ -438,7 +438,7 @@ class ImageView:
             width=20,
         ).pack(
             pady=3
-        )  # [2]
+        )  # [16]
 
         tk.Button(
             control_frame,
@@ -454,7 +454,7 @@ class ImageView:
             width=20,
         ).pack(
             pady=3
-        )  # [2]
+        )   # [16]
 
         tk.Button(
             control_frame,
@@ -470,7 +470,7 @@ class ImageView:
             width=20,
         ).pack(
             pady=3
-        )  # [2]
+        )   # [16]
 
         # Separator
 
@@ -483,7 +483,7 @@ class ImageView:
             fg="white",
         ).pack(
             pady=5
-        )  # [2]
+        )  # [16]
 
         brightness_slider = tk.Scale(
             control_frame,
@@ -504,7 +504,7 @@ class ImageView:
             relief="flat",
             showvalue=False,
         )
-        brightness_slider.pack(pady=(10, 4))  # [1]
+        brightness_slider.pack(pady=(10, 4))  # [17]
 
         brightness_label = tk.Label(
             control_frame, text="1.0", bg="#2d2d2d", fg="white", font=("Segoe UI", 9)
