@@ -31,7 +31,7 @@ class ImageView:
 
     # ==================== FILE OPERATIONS ====================
 
-    def open_image(self):
+    def open_image(self):  # [4]
         """Open an image file"""
         file_path = filedialog.askopenfilename(
             title="Open Image",
@@ -60,6 +60,7 @@ class ImageView:
             )
 
     def save_image(self):
+        # [4]
         """Save to current file"""
         if self.controller.get_display_pil() is None:
             messagebox.showwarning("Warning", "No image found.")
@@ -73,6 +74,7 @@ class ImageView:
             messagebox.showerror("Error", f"Could not save:\n{str(e)}")
 
     def save_as(self):
+        # [4]
         """Save to new file"""
         if self.controller.get_display_pil() is None:
             messagebox.showwarning("Warning", "No image found.")
@@ -111,7 +113,7 @@ class ImageView:
             return
         self.controller.undo()
         self.refresh_image()
-        self.update_status("Undo")
+        self.update_status("Undo")  # [5]
 
     def redo(self):
         if self.controller.get_display_pil() is None:
@@ -119,7 +121,7 @@ class ImageView:
             return
         self.controller.redo()
         self.refresh_image()
-        self.update_status("Redo")
+        self.update_status("Redo")  # [5]
 
     def apply_reset_image(self):
         """Reset to original image"""
@@ -134,7 +136,7 @@ class ImageView:
             self.blur_var.set(0)
             self.refresh_image()
             self.refresh_details()
-            self.update_status("Reset to original")
+            self.update_status("Reset to original")  # [6]
 
     def refresh_image(self):
         """PULL PIL disp;ay image from controller and draw it"""
@@ -157,7 +159,7 @@ class ImageView:
         size = self.controller.get_size()
         if size:
             w, h = size
-            self.update_status(f"Size: {w}x{h} pixels")
+            self.update_status(f"Size: {w}x{h} pixels")  # [5]
 
     def update_status(self, message):
         """Update status bar"""
@@ -265,7 +267,7 @@ class ImageView:
 
         # File Menu
         file_menu = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label="File", menu=file_menu)
+        menubar.add_cascade(label="File", menu=file_menu)  # [1]
         file_menu.add_command(label="Open", command=self.open_image)
         file_menu.add_command(label="Save", command=self.save_image)
         file_menu.add_command(label="Save As", command=self.save_as)
@@ -303,7 +305,7 @@ class ImageView:
             text="Open an image\n(File → Open)",
             fill="white",
             font=("Arial", 14),
-        )
+        )  # [1]
 
     def create_controls(self):
         """Create control panel with buttons and slider"""
@@ -339,7 +341,7 @@ class ImageView:
         #     relief="flat",
         #     height=2,
         #     width=9,
-        # ).pack(side=tk.LEFT, padx=5)
+        # ).pack(side=tk.LEFT, padx=5) # [2]
 
         # # Redo button
         # tk.Button(
@@ -371,7 +373,9 @@ class ImageView:
             relief="flat",
             height=2,
             width=20,
-        ).pack(pady=3)
+        ).pack(
+            pady=3
+        )  # [2]
 
         tk.Button(
             control_frame,
@@ -385,7 +389,9 @@ class ImageView:
             relief="flat",
             height=2,
             width=20,
-        ).pack(pady=3)
+        ).pack(
+            pady=3
+        )  # [2]
 
         tk.Button(
             control_frame,
@@ -399,7 +405,9 @@ class ImageView:
             relief="flat",
             height=2,
             width=20,
-        ).pack(pady=3)
+        ).pack(
+            pady=3
+        )  # [2]
         tk.Button(
             control_frame,
             text="Rotate 180°",
@@ -412,7 +420,9 @@ class ImageView:
             relief="flat",
             height=2,
             width=20,
-        ).pack(pady=3)
+        ).pack(
+            pady=3
+        )  # [2]
 
         tk.Button(
             control_frame,
@@ -426,7 +436,9 @@ class ImageView:
             relief="flat",
             height=2,
             width=20,
-        ).pack(pady=3)
+        ).pack(
+            pady=3
+        )  # [2]
 
         tk.Button(
             control_frame,
@@ -440,7 +452,9 @@ class ImageView:
             relief="flat",
             height=2,
             width=20,
-        ).pack(pady=3)
+        ).pack(
+            pady=3
+        )  # [2]
 
         tk.Button(
             control_frame,
@@ -454,7 +468,9 @@ class ImageView:
             relief="flat",
             height=2,
             width=20,
-        ).pack(pady=3)
+        ).pack(
+            pady=3
+        )  # [2]
 
         # Separator
 
@@ -465,7 +481,9 @@ class ImageView:
             font=("Segoe UI", 10),
             bg="#52514b",
             fg="white",
-        ).pack(pady=5)
+        ).pack(
+            pady=5
+        )  # [2]
 
         brightness_slider = tk.Scale(
             control_frame,
@@ -486,7 +504,7 @@ class ImageView:
             relief="flat",
             showvalue=False,
         )
-        brightness_slider.pack(pady=(10, 4))
+        brightness_slider.pack(pady=(10, 4))  # [1]
 
         brightness_label = tk.Label(
             control_frame, text="1.0", bg="#2d2d2d", fg="white", font=("Segoe UI", 9)
