@@ -26,16 +26,16 @@ class ImageController:
         if self.img is None:
             return None
         if len(self.img.shape) == 2:
-            return Image.fromarray(self.img)
+            return Image.fromarray(self.img)  # [22]
 
-        rgb = cv2.cvtColor(self.img, cv2.COLOR_BGR2RGB)
-        return Image.fromarray(rgb)
+        rgb = cv2.cvtColor(self.img, cv2.COLOR_BGR2RGB)  # [21]
+        return Image.fromarray(rgb)  # [22]
 
     def get_size(self):
         if self.img is None:
             return None
 
-        h, w = self.img.shape[:2]
+        h, w = self.img.shape[:2]  # [1]
         return w, h
 
     # Get details about the image
